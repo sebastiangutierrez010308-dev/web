@@ -4,33 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Métodos de Entrenamiento Aeróbico y Anaeróbico</title>
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-dark: #0b1120;
-      --card-bg: rgba(30, 41, 59, 0.88);
-      --card-border: rgba(255, 255, 255, 0.1);
+      --bg-dark: #080d1a;
+      --card-bg: rgba(20, 30, 50, 0.75);
+      --card-border: rgba(255, 255, 255, 0.08);
       --neon-green: #22c55e;
+      --neon-green-glow: rgba(34, 197, 94, 0.4);
       --neon-blue: #06b6d4;
       --neon-orange: #f97316;
+      --neon-red: #ef4444;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
 
     body {
       background-color: var(--bg-dark);
-      background-image: linear-gradient(to bottom, rgba(11, 17, 32, 0.90), rgba(11, 17, 32, 0.95)), 
+      background-image: radial-gradient(circle at 50% 0%, rgba(34, 197, 94, 0.15), transparent 70%),
+                        linear-gradient(to bottom, rgba(8, 13, 26, 0.85), rgba(8, 13, 26, 0.95)), 
                         url('img/fondo.jpeg');
       background-size: cover;
       background-attachment: fixed;
@@ -41,732 +38,876 @@
       min-height: 100vh;
     }
 
-    h1, h2, h3, h4 {
-      font-family: 'Montserrat', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+    h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    /* CREDENCIAL ESTÉTICA EN LA ESQUINA SUPERIOR IZQUIERDA */
+    /* BADGE AUTOR */
     .author-badge {
-      position: absolute;
-      top: 20px;
-      left: 20px;
+      position: fixed; top: 20px; left: 20px;
       background: rgba(15, 23, 42, 0.85);
-      border: 1px solid var(--neon-green);
-      border-radius: 12px;
-      padding: 10px 18px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      z-index: 100;
-      transition: transform 0.3s ease;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      border-radius: 8px; padding: 10px 16px;
+      backdrop-filter: blur(12px); z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
     }
+    .author-badge .label { font-size: 0.65rem; text-transform: uppercase; color: var(--neon-green); font-weight: 800; display: block; letter-spacing: 1px; }
+    .author-badge .name { font-size: 0.95rem; font-weight: 900; color: #ffffff; display: block; }
+    .author-badge .group { font-size: 0.75rem; color: var(--neon-blue); font-weight: 700; display: block; }
 
-    .author-badge:hover {
-      transform: translateY(-2px);
+    /* BARRA DE NAVEGACIÓN SUPERIOR */
+    .top-nav {
+      position: fixed; top: 20px; right: 20px; z-index: 1000;
+      display: flex; gap: 10px; background: rgba(15, 23, 42, 0.85);
+      padding: 6px; border-radius: 10px; border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
     }
-
-    .author-badge .label {
-      font-size: 0.7rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--neon-green);
-      font-weight: 700;
-      display: block;
-      margin-bottom: 2px;
+    .nav-btn {
+      background: transparent; border: none; color: var(--text-muted);
+      padding: 8px 16px; border-radius: 6px; font-weight: 700; font-size: 0.85rem;
+      cursor: pointer; transition: all 0.3s ease; text-transform: uppercase;
     }
+    .nav-btn:hover, .nav-btn.active { color: #fff; background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green-glow); }
 
-    .author-badge .name {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #ffffff;
-      display: block;
-      letter-spacing: 0.5px;
+    /* PANTALLAS (TAB SYSTEM) */
+    .page-screen { display: none; opacity: 0; transition: opacity 0.4s ease-in-out; padding-top: 80px; min-height: 100vh; }
+    .page-screen.active { display: block; opacity: 1; }
+
+    /* HERO (PANTALLA 1) */
+    #screen-hero {
+      padding-top: 0; min-height: 100vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center; padding: 20px;
     }
-
-    .author-badge .group {
-      font-size: 0.8rem;
-      color: var(--neon-blue);
-      font-weight: 600;
-      display: block;
+    .hero-tag {
+      background: rgba(34, 197, 94, 0.15); color: var(--neon-green);
+      border: 1px solid var(--neon-green); padding: 6px 20px; border-radius: 30px;
+      font-size: 0.85rem; font-weight: 800; margin-bottom: 25px; display: inline-block;
     }
-
-    /* PORTADA / HERO SCREEN */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, rgba(11, 17, 32, 0.8), rgba(15, 23, 42, 0.85)), 
-                  url('img/fondo.jpeg');
-      background-size: cover;
-      background-position: center;
-      padding: 40px 20px;
-      text-align: center;
+    .hero-title {
+      font-size: 3rem; font-weight: 900; line-height: 1.15; margin-bottom: 20px; max-width: 1000px;
+      background: linear-gradient(to right, #ffffff 40%, var(--neon-green));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     }
-
-    .hero-badge {
-      background: rgba(34, 197, 94, 0.15);
-      color: var(--neon-green);
-      border: 1px solid var(--neon-green);
-      padding: 6px 18px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      display: inline-block;
-      margin-bottom: 20px;
-      backdrop-filter: blur(5px);
+    .hero-subtitle { max-width: 700px; color: #cbd5e1; font-size: 1.15rem; margin-bottom: 35px; font-weight: 400; }
+    
+    .btn-primary {
+      background: var(--neon-green); color: #051308; padding: 16px 40px; border-radius: 8px;
+      font-weight: 900; border: none; cursor: pointer; font-size: 1rem; letter-spacing: 1px;
+      transition: all 0.3s ease; box-shadow: 0 0 25px var(--neon-green-glow); text-transform: uppercase;
     }
+    .btn-primary:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 0 35px rgba(34, 197, 94, 0.8); }
 
-    .hero h1 {
-      font-size: 2.8rem;
-      margin-bottom: 15px;
-      background: linear-gradient(to right, #ffffff, var(--neon-green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
+    /* ESTRUCTURA CONTENIDOS */
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px 20px 80px; }
+    
+    .section-header { margin: 40px 0 25px; text-align: left; }
+    .section-header h2 { font-size: 1.8rem; color: #fff; font-weight: 900; display: flex; align-items: center; gap: 10px; }
+    .section-header .line { width: 60px; height: 4px; background: var(--neon-green); margin-top: 8px; border-radius: 2px; }
 
-    .hero p {
-      max-width: 700px;
-      margin: 0 auto 30px;
-      color: #cbd5e1;
-      font-size: 1.15rem;
-    }
-
-    .btn {
-      background: var(--neon-green);
-      color: #000;
-      padding: 16px 36px;
-      border-radius: 8px;
-      font-weight: 800;
-      border: none;
-      cursor: pointer;
-      font-size: 1.05rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 0 30px rgba(34, 197, 94, 0.8);
-    }
-
-    /* PANTALLA PRINCIPAL DE CONTENIDO */
-    .main-content {
-      display: none;
-      opacity: 0;
-      transition: opacity 0.5s ease;
-    }
-
-    .main-content.active {
-      display: block;
-      opacity: 1;
-    }
-
-    .btn-back {
-      background: rgba(30, 41, 59, 0.8);
-      color: var(--text-muted);
-      border: 1px solid var(--card-border);
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 30px;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(5px);
-    }
-
-    .btn-back:hover {
-      color: var(--text-main);
-      border-color: var(--neon-green);
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-
-    .section-title {
-      font-size: 2rem;
-      text-align: center;
-      margin-bottom: 40px;
-      position: relative;
-    }
-
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 70px;
-      height: 4px;
-      background: var(--neon-green);
-      margin: 10px auto 0;
-      border-radius: 2px;
-      box-shadow: 0 0 10px var(--neon-green);
-    }
-
-    /* CLASIFICACIÓN GENERAL */
-    .overview-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 30px;
-      margin-bottom: 40px;
-      backdrop-filter: blur(10px);
+    .info-card {
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 28px; margin-bottom: 25px; backdrop-filter: blur(10px);
       box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
 
-    .overview-card h3 {
-      color: var(--neon-green);
-      margin-bottom: 15px;
+    /* FILTROS Y TARJETAS METODOS */
+    .filter-tabs { display: flex; gap: 12px; margin-bottom: 25px; }
+    .filter-btn {
+      background: rgba(30, 41, 59, 0.8); border: 1px solid var(--card-border); color: #94a3b8;
+      padding: 10px 24px; border-radius: 8px; cursor: pointer; font-weight: 800; font-size: 0.9rem; transition: all 0.3s ease;
     }
+    .filter-btn.active { background: var(--neon-green); color: #000; border-color: var(--neon-green); box-shadow: 0 0 15px var(--neon-green-glow); }
 
-    /* FILTROS Y MÉTODOS */
-    .filter-tabs {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 35px;
-    }
-
-    .tab-btn {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      color: var(--text-main);
-      padding: 14px 32px;
-      border-radius: 25px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      backdrop-filter: blur(10px);
-    }
-
-    .tab-btn.active {
-      background: var(--neon-green);
-      color: #000;
-      border-color: var(--neon-green);
-      box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
-    }
-
-    .methods-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-      gap: 30px;
-    }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
 
     .method-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; overflow: hidden; display: flex; flex-direction: column;
+      backdrop-filter: blur(10px); transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .method-card:hover { transform: translateY(-4px); border-color: rgba(34, 197, 94, 0.4); }
+    .card-img-container { width: 100%; height: 200px; overflow: hidden; position: relative; }
+    .card-img-container img { width: 100%; height: 100%; object-fit: cover; }
+    .card-body { padding: 22px; flex-grow: 1; }
+    .badge-tag {
+      font-size: 0.7rem; text-transform: uppercase; font-weight: 800; padding: 4px 10px;
+      border-radius: 4px; background: rgba(34, 197, 94, 0.15); color: var(--neon-green);
+      border: 1px solid var(--neon-green); display: inline-block; margin-bottom: 12px;
     }
 
-    .method-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 25px rgba(0,0,0,0.5);
-    }
-
-    /* IMÁGENES DENTRO DE LAS TARJETAS */
-    .card-img-container {
-      width: 100%;
-      height: 190px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .card-img-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s ease;
-    }
-
-    .method-card:hover .card-img-container img {
-      transform: scale(1.08);
-    }
-
-    .card-body {
-      padding: 25px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      flex-grow: 1;
-    }
-
-    .method-tag {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 20px;
-      background: rgba(34, 197, 94, 0.15);
-      color: var(--neon-green);
-      border: 1px solid var(--neon-green);
-      display: inline-block;
-      margin-bottom: 12px;
-      width: fit-content;
-    }
-
-    .method-tag.discontinuo-tag {
-      background: rgba(6, 182, 212, 0.15);
-      color: var(--neon-blue);
-      border-color: var(--neon-blue);
-    }
-
-    .method-card h3 {
-      font-size: 1.4rem;
-      margin-bottom: 12px;
-    }
-
-    .method-card p {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      margin-bottom: 15px;
-    }
-
-    .detail-list {
-      list-style: square;
-      padding-left: 20px;
-      margin-bottom: 15px;
-      color: #cbd5e1;
-      font-size: 0.9rem;
-    }
-
-    .detail-list li {
-      margin-bottom: 8px;
-    }
-
-    .example-box {
-      background: rgba(0, 0, 0, 0.3);
-      border-left: 4px solid var(--neon-orange);
-      padding: 12px;
-      border-radius: 0 8px 8px 0;
-      font-size: 0.85rem;
-      color: #cbd5e1;
-      margin-top: 15px;
-    }
-
-    /* DIRECCIONES DE ENTRENAMIENTO */
-    .zones-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-    }
-
-    .zone-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 25px;
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s ease;
-    }
-
-    .zone-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .zone-badge {
-      display: inline-block;
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 800;
-      margin-bottom: 15px;
-    }
-
-    .badge-alactacido { background: rgba(249, 115, 22, 0.2); color: var(--neon-orange); border: 1px solid var(--neon-orange); }
-    .badge-lactacido { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
-    .badge-aerobico { background: rgba(34, 197, 94, 0.2); color: var(--neon-green); border: 1px solid var(--neon-green); }
-    .badge-mixto { background: rgba(6, 182, 212, 0.2); color: var(--neon-blue); border: 1px solid var(--neon-blue); }
-
-    .zone-stats {
-      list-style: none;
-      margin-top: 15px;
-      font-size: 0.9rem;
-    }
-
-    .zone-stats li {
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px dashed var(--card-border);
-      padding-bottom: 4px;
-    }
-
-    .zone-stats span {
-      color: var(--text-muted);
-    }
-
-    /* TABLA COMPARATIVA */
+    /* TABLAS ESTILIZADAS */
     .table-container {
-      overflow-x: auto;
-      background: var(--card-bg);
-      border-radius: 16px;
-      border: 1px solid var(--card-border);
-      backdrop-filter: blur(10px);
+      overflow-x: auto; background: var(--card-bg); border-radius: 12px;
+      border: 1px solid var(--card-border); backdrop-filter: blur(10px); margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 14px 18px; border-bottom: 1px solid var(--card-border); font-size: 0.88rem; }
+    th { background: rgba(10, 16, 30, 0.8); color: var(--neon-green); text-transform: uppercase; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.5px; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
-    }
+    /* MACROCICLO VISUAL BAR */
+    .macro-bar-container { display: flex; border-radius: 10px; overflow: hidden; margin: 20px 0; border: 1px solid var(--card-border); height: 50px; }
+    .macro-phase { display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; color: #fff; text-align: center; padding: 5px; }
+    .phase-1 { background: #0284c7; width: 25%; }
+    .phase-2 { background: #ea580c; width: 25%; }
+    .phase-3 { background: #16a34a; width: 25%; }
+    .phase-4 { background: #dc2626; width: 25%; }
 
-    th, td {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--card-border);
-    }
-
-    th {
-      background: rgba(0, 0, 0, 0.4);
-      color: var(--neon-green);
-      font-size: 0.85rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    tr:hover {
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    footer {
-      background: rgba(9, 13, 22, 0.95);
-      padding: 40px 20px;
-      text-align: center;
-      border-top: 1px solid var(--card-border);
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 60px;
-    }
-
-    footer blockquote {
-      max-width: 800px;
-      margin: 15px auto 0;
-      font-style: italic;
-      color: #64748b;
-    }
+    /* FOOTER */
+    footer { background: rgba(5, 9, 18, 0.95); padding: 30px 20px; text-align: center; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.85rem; margin-top: 60px; }
 
     @media (max-width: 768px) {
-      .hero h1 { font-size: 2rem; }
-      .container { padding: 20px 15px; }
-      .author-badge {
-        position: relative;
-        top: 0;
-        left: 0;
-        margin-bottom: 25px;
-      }
+      .hero-title { font-size: 2rem; }
+      .author-badge { position: relative; top: 0; left: 0; margin: 15px auto; width: calc(100% - 40px); }
+      .top-nav { position: relative; top: 0; right: 0; justify-content: center; margin: 10px auto; width: calc(100% - 40px); }
+      .page-screen { padding-top: 20px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- PORTADA DE INICIO -->
-  <header class="hero" id="hero-screen">
-    
-    <!-- CREDENCIAL EN LA ESQUINA SUPERIOR IZQUIERDA -->
-    <div class="author-badge">
-      <span class="label">Presentado por</span>
-      <span class="name">JHOAN GUTIERREZ</span>
-      <span class="group">Grupo: S885</span>
-    </div>
+  <!-- BADGE IDENTIFICADOR -->
+  <div class="author-badge">
+    <span class="label">PRESENTADO POR</span>
+    <span class="name">JHOAN GUTIERREZ</span>
+    <span class="group">Grupo: S885</span>
+  </div>
 
-    <span class="hero-badge">Metodología del Entrenamiento Deportivo</span>
-    <h1>Métodos de Entrenamiento Aeróbico y Anaeróbico</h1>
-    <p>Guía integral y científica sobre métodos continuos, discontinuos y zonas de influencia orgánica.</p>
-    <button class="btn" onclick="startApp()">Explorar Contenido</button>
-  </header>
+  <!-- NAVEGACIÓN ENTRE VENTANAS -->
+  <nav class="top-nav">
+    <button class="nav-btn active" onclick="switchTab('screen-hero')">Inicio</button>
+    <button class="nav-btn" onclick="switchTab('screen-page1')">1. Métodos</button>
+    <button class="nav-btn" onclick="switchTab('screen-page2')">2. Plan Prescripción</button>
+  </nav>
 
-  <!-- PANTALLA PRINCIPAL DE CONTENIDO -->
-  <main class="main-content" id="content-screen">
+  <!-- ==========================================
+       PANTALLA 1: PORTADA (HERO)
+  =========================================== -->
+  <section class="page-screen active" id="screen-hero">
+    <div class="hero-tag">Metodología del Entrenamiento Deportivo</div>
+    <h1 class="hero-title">MÉTODOS DE ENTRENAMIENTO AERÓBICO Y ANAERÓBICO</h1>
+    <p class="hero-subtitle">Guía integral y científica sobre métodos continuos, discontinuos y zonas de influencia orgánica.</p>
+    <button class="btn-primary" onclick="switchTab('screen-page1')">EXPLORAR CONTENIDO</button>
+  </section>
+
+
+  <!-- ==========================================
+       PANTALLA 2: PRIMERA PÁGINA COMPLETA
+  =========================================== -->
+  <section class="page-screen" id="screen-page1">
     <div class="container">
       
-      <button class="btn-back" onclick="goBack()">← Volver al Inicio</button>
-
       <!-- 1. CLASIFICACIÓN GENERAL -->
-      <section style="margin-bottom: 60px;">
-        <h2 class="section-title">1. Clasificación General de los Métodos</h2>
-        <div class="overview-card">
-          <p style="margin-bottom: 15px;">
-            El documento agrupa los métodos de entrenamiento en dos grandes direcciones: <strong>métodos continuos</strong> y <strong>métodos discontinuos</strong>. 
-          </p>
-          <ul class="detail-list">
-            <li><strong>Métodos Continuos:</strong> Se dividen en <em>invariables</em> y <em>variables</em>.</li>
-            <li><strong>Métodos Discontinuos:</strong> Aparecen los métodos de <em>intervalos</em> y <em>repeticiones</em>.</li>
-            <li><strong>Relación Metabólica:</strong> El documento relaciona estas formas de entrenamiento con direcciones <strong>aeróbicas, anaeróbicas y mixtas</strong>.</li>
-          </ul>
+      <div class="section-header">
+        <h2>1. CLASIFICACIÓN GENERAL DE LOS MÉTODOS</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card">
+        <p style="margin-bottom: 12px;">El documento agrupa los métodos de entrenamiento en dos grandes direcciones: <strong>métodos continuos</strong> y <strong>métodos discontinuos</strong>[cite: 1, 2].</p>
+        <ul style="list-style: none; padding-left: 0;">
+          <li style="margin-bottom: 8px;">• <strong>Métodos Continuos:</strong> Se dividen en <em>invariables</em> y <em>variables</em>[cite: 1].</li>
+          <li style="margin-bottom: 8px;">• <strong>Métodos Discontinuos:</strong> Aparecen los métodos de <em>intervalos</em> y <em>repeticiones</em>[cite: 2].</li>
+          <li>• <strong>Relación Metabólica:</strong> El documento relaciona estas formas de entrenamiento con direcciones aeróbicas, anaeróbicas y mixtas[cite: 3].</li>
+        </ul>
+      </div>
+
+      <!-- 2. MÉTODOS DE ENTRENAMIENTO CON BOTONES Y CARDS -->
+      <div class="section-header">
+        <h2>2. MÉTODOS DE ENTRENAMIENTO</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-btn active" id="btn-continuos" onclick="filterMethods('continuo')">Continuos</button>
+        <button class="filter-btn" id="btn-discontinuos" onclick="filterMethods('discontinuo')">Discontinuos</button>
+      </div>
+
+      <div class="grid-2">
+        <!-- CONTINUO INVARIABLE -->
+        <div class="method-card card-continuo">
+          <div class="card-img-container"><img src="img/invariable.jpeg" alt="Continuo Invariable"></div>
+          <div class="card-body">
+            <span class="badge-tag">Método Continuo</span>
+            <h3 style="margin-bottom: 10px; color: #fff;">CONTINUO INVARIABLE</h3>
+            <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 15px;">
+              Se caracteriza por realizar el trabajo sin interrupciones durante la ejecución[cite: 1, 3]. La carga mantiene estandarizados sus parámetros externos a una intensidad moderada y a un ritmo determinado[cite: 1, 3].
+            </p>
+            <ul style="font-size: 0.85rem; color: #94a3b8; padding-left: 15px;">
+              <li>Se utiliza principalmente para el desarrollo de la resistencia general, resistencia aeróbica y la capacidad cardiovascular[cite: 3].</li>
+              <li>Se ejecuta mediante ejercicios cíclicos y acíclicos realizados durante un tiempo prolongado[cite: 3].</li>
+              <li>Favorece la coordinación de los sistemas encargados del consumo de oxígeno[cite: 3].</li>
+            </ul>
+            <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 0.8rem; color: var(--neon-green);">
+              <strong>Característica clave:</strong> La intensidad permanece constante durante toda la actividad, sin pausas ni variaciones en el esfuerzo[cite: 1, 3].
+            </div>
+          </div>
         </div>
-      </section>
 
-      <!-- 2. MÉTODOS DE ENTRENAMIENTO -->
-      <section style="margin-bottom: 60px;">
-        <h2 class="section-title">2. Métodos de Entrenamiento</h2>
-        
-        <!-- Filtros Exclusivos -->
-        <div class="filter-tabs">
-          <button class="tab-btn active" id="btn-continuo" onclick="filterMethods('continuo')">Continuos</button>
-          <button class="tab-btn" id="btn-discontinuo" onclick="filterMethods('discontinuo')">Discontinuos</button>
+        <!-- CONTINUO VARIABLE (FARTLEK) -->
+        <div class="method-card card-continuo">
+          <div class="card-img-container"><img src="img/fartlek.jpeg" alt="Fartlek"></div>
+          <div class="card-body">
+            <span class="badge-tag">Método Continuo</span>
+            <h3 style="margin-bottom: 10px; color: #fff;">CONTINUO VARIABLE (FARTLEK)</h3>
+            <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 15px;">
+              Dentro de los métodos continuos variables, el Fartlek es uno de los más difundidos[cite: 1, 3]. La palabra <em>Fartlek</em> procede del sueco y significa "juego de velocidad"[cite: 1, 3].
+            </p>
+            <ul style="font-size: 0.85rem; color: #94a3b8; padding-left: 15px;">
+              <li>Se define como la realización de cambios de ritmo dentro de una actividad continua[cite: 1, 3].</li>
+              <li>Las variaciones se producen en la velocidad de carrera durante una determinada distancia[cite: 1, 3].</li>
+              <li>Pueden organizarse mediante programas estandarizados o no estandarizados[cite: 1, 3].</li>
+            </ul>
+            <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 6px; font-size: 0.8rem; color: var(--neon-green);">
+              <strong>Ejemplo práctico:</strong> Realizar una carrera continua alternando periodos de ritmo suave, moderado y rápido, sin detener completamente la actividad[cite: 1, 3].
+            </div>
+          </div>
         </div>
 
-        <div class="methods-grid">
-          
-          <!-- MÉTODO CONTINUO INVARIABLE -->
-          <div class="method-card continuo">
-            <div class="card-img-container">
-              <img src="img/invariable.jpeg" alt="Continuo Invariable">
-            </div>
-            <div class="card-body">
-              <div>
-                <span class="method-tag">Método Continuo</span>
-                <h3>Continuo Invariable</h3>
-                <p>Se caracteriza por realizar el trabajo sin interrupciones durante la ejecución. La carga mantiene estandarizados sus parámetros externos a una intensidad moderada y a un ritmo determinado.</p>
-                
-                <ul class="detail-list">
-                  <li>Se utiliza principalmente para el desarrollo de la <strong>resistencia general</strong>, <strong>resistencia aeróbica</strong> y la <strong>capacidad cardiovascular</strong>.</li>
-                  <li>Se ejecuta mediante ejercicios <strong>cíclicos y acíclicos</strong> realizados durante un tiempo prolongado.</li>
-                  <li>Favorece la coordinación de los sistemas encargados del consumo de oxígeno durante el trabajo.</li>
-                  <li>Especialmente útil en las primeras etapas de preparación.</li>
-                  <li>Los trabajos prolongados por debajo de esfuerzos máximos favorecen la recuperación cardiovascular y sirven como base para esfuerzos de mayor intensidad.</li>
-                </ul>
-              </div>
-              <div class="example-box">
-                <strong>Característica clave:</strong> La intensidad permanece constante durante toda la actividad, sin pausas ni variaciones en el esfuerzo.
-              </div>
-            </div>
+        <!-- MÉTODOS DISCONTINUOS (OCULTOS POR DEFECTO PARA EL FILTRO) -->
+        <div class="method-card card-discontinuo" style="display: none;">
+          <div class="card-img-container"><img src="img/intervalos.jpeg" alt="Intervalos"></div>
+          <div class="card-body">
+            <span class="badge-tag">Método Discontinuo</span>
+            <h3 style="margin-bottom: 10px; color: #fff;">MÉTODO INTERVÁLICO</h3>
+            <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 15px;">
+              Alterna periodos de trabajo con pausas de recuperación incompleta (120-140 ppm) para estimular la capacidad del corazón y la eficiencia metabólica[cite: 2, 3].
+            </p>
           </div>
-
-          <!-- MÉTODO CONTINUO VARIABLE (FARTLEK) -->
-          <div class="method-card continuo">
-            <div class="card-img-container">
-              <img src="img/fartlek.jpeg" alt="Continuo Variable Fartlek">
-            </div>
-            <div class="card-body">
-              <div>
-                <span class="method-tag">Método Continuo</span>
-                <h3>Continuo Variable (Fartlek)</h3>
-                <p>Dentro de los métodos continuos variables, el Fartlek es uno de los más difundidos. La palabra <em>Fartlek</em> procede del sueco y significa <strong>"juego de velocidad"</strong>.</p>
-                
-                <ul class="detail-list">
-                  <li>Se define como la realización de <strong>cambios de ritmo</strong> dentro de una actividad continua.</li>
-                  <li>Las variaciones se producen en la velocidad de carrera durante una determinada distancia.</li>
-                  <li>Pueden organizarse mediante programas <strong>estandarizados o no estandarizados</strong>.</li>
-                </ul>
-              </div>
-              <div class="example-box">
-                <strong>Ejemplo práctico:</strong> Realizar una carrera continua alternando períodos de ritmo suave, moderado y rápido, sin detener completamente la actividad.
-              </div>
-            </div>
-          </div>
-
-          <!-- MÉTODO DISCONTINUO: REPETICIONES -->
-          <div class="method-card discontinuo" style="display: none;">
-            <div class="card-img-container">
-              <img src="img/repeticiones.jpeg" alt="Método de Repeticiones">
-            </div>
-            <div class="card-body">
-              <div>
-                <span class="method-tag discontinuo-tag">Método Discontinuo</span>
-                <h3>Método de Repeticiones</h3>
-                <p>A diferencia de los continuos, existen períodos de trabajo y recuperación. En este método, cada carga de trabajo se realiza después de alcanzar un <strong>restablecimiento completo</strong>.</p>
-                
-                <ul class="detail-list">
-                  <li>El deportista comienza nuevamente el esfuerzo únicamente cuando se encuentra completamente recuperado.</li>
-                  <li>Dirigido especialmente al desarrollo de capacidades relacionadas con la <strong>velocidad</strong> y situaciones donde la efectividad de ejecución es el objetivo principal.</li>
-                  <li>Cada esfuerzo se alterna con pausas que permiten ejecutar la actividad con <strong>alta calidad</strong>.</li>
-                </ul>
-              </div>
-              <div class="example-box">
-                <strong>Diferencia fundamental:</strong> Descanso total antes de la siguiente serie para garantizar máxima efectividad y velocidad.
-              </div>
-            </div>
-          </div>
-
-          <!-- MÉTODO DISCONTINUO: INTERVALOS -->
-          <div class="method-card discontinuo" style="display: none;">
-            <div class="card-img-container">
-              <img src="img/intervalos.jpeg" alt="Método de Intervalos">
-            </div>
-            <div class="card-body">
-              <div>
-                <span class="method-tag discontinuo-tag">Método Discontinuo</span>
-                <h3>Método de Intervalos</h3>
-                <p>Se caracteriza por alternar períodos de trabajo y recuperación <strong>sin alcanzar una recuperación completa</strong>.</p>
-                
-                <ul class="detail-list">
-                  <li>Se desarrolla con <strong>"deudas de restablecimiento"</strong>: el siguiente esfuerzo comienza antes de que el organismo haya recuperado su capacidad de trabajo.</li>
-                  <li>Se utiliza para trabajar capacidades relacionadas con la <strong>resistencia y esfuerzos de mayor intensidad</strong>.</li>
-                </ul>
-              </div>
-              <div class="example-box">
-                <strong>Ejemplo del documento:</strong> 4 × 50 m al 95%, con una relación trabajo-recuperación de 1:2.
-              </div>
-            </div>
-          </div>
-
         </div>
-      </section>
+
+        <div class="method-card card-discontinuo" style="display: none;">
+          <div class="card-img-container"><img src="img/repeticiones.jpeg" alt="Repeticiones"></div>
+          <div class="card-body">
+            <span class="badge-tag">Método Discontinuo</span>
+            <h3 style="margin-bottom: 10px; color: #fff;">MÉTODO DE REPETICIONES</h3>
+            <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 15px;">
+              Cargas de alta intensidad con descansos completos para permitir la regeneración total de ATP-PC y garantizar máxima calidad en cada repetición[cite: 2, 3].
+            </p>
+          </div>
+        </div>
+      </div>
 
       <!-- 3. DIRECCIONES DEL ENTRENAMIENTO -->
-      <section style="margin-bottom: 60px;">
-        <h2 class="section-title">3. Direcciones del Entrenamiento</h2>
-        <div class="zones-grid">
-          
-          <div class="zone-card">
-            <span class="zone-badge badge-alactacido">Anaeróbico Alactácido</span>
-            <h3>Velocidad y Fuerza</h3>
-            <p>Trabajo de gran esfuerzo físico. Conocido también como <strong>Resistencia de la Fuerza</strong> o <strong>Resistencia Anaeróbica Alactácida</strong>. Depende de las reservas de fosfágenos (<strong>CrP y ATP</strong>).</p>
-            <ul class="zone-stats">
-              <li><span>Duración:</span> <strong>Hasta ~30 segundos</strong></li>
-              <li><span>Recuperación:</span> <strong>1 a 2 minutos</strong></li>
-              <li><span>Frec. Cardíaca:</span> <strong>> 180 pulsaciones/min</strong></li>
-              <li><span>Planificación:</span> <strong>Al inicio de la sesión principal</strong></li>
-            </ul>
-          </div>
+      <div class="section-header">
+        <h2>3. DIRECCIONES DEL ENTRENAMIENTO</h2>
+        <div class="line"></div>
+      </div>
 
-          <div class="zone-card">
-            <span class="zone-badge badge-lactacido">Anaeróbico Lactácido</span>
-            <h3>Resistencia a la Velocidad</h3>
-            <p>Provoca grandes concentraciones de ácido láctico en el organismo. Busca desarrollar altos valores de resistencia a la velocidad anaeróbica.</p>
-            <ul class="zone-stats">
-              <li><span>Duración:</span> <strong>30 a 90 segundos</strong></li>
-              <li><span>Recuperación:</span> <strong>Hasta bajar la FC</strong></li>
-              <li><span>Frec. Cardíaca:</span> <strong>> 190 pulsaciones/min</strong></li>
-            </ul>
+      <div class="grid-3">
+        <!-- ANAERÓBICO ALACTÁCIDO -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-orange);">
+          <span class="badge-tag" style="background: rgba(249, 115, 22, 0.15); color: var(--neon-orange); border-color: var(--neon-orange);">Anaeróbico Alactácido</span>
+          <h3 style="font-size: 1.1rem; margin: 10px 0; color: #fff;">VELOCIDAD Y FUERZA</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Trabajo de gran esfuerzo físico. Conocido también como Resistencia de la Fuerza o Resistencia Anaeróbica Alactácida[cite: 3]. Depende de las reservas de fosfágenos (CrP y ATP)[cite: 3].</p>
+          <hr style="border-color: var(--card-border); margin: 12px 0;">
+          <div style="font-size: 0.8rem; color: #94a3b8;">
+            <p><strong>Duración:</strong> Hasta ~30 segundos[cite: 3]</p>
+            <p><strong>Recuperación:</strong> 1 a 2 minutos[cite: 3]</p>
+            <p><strong>Frec. Cardíaca:</strong> > 180 pulsaciones/min[cite: 3]</p>
+            <p><strong>Planificación:</strong> Al inicio de la sesión principal[cite: 3]</p>
           </div>
-
-          <div class="zone-card">
-            <span class="zone-badge badge-aerobico">Dirección Aeróbica</span>
-            <h3>Resistencia Aeróbica Base</h3>
-            <p>Se caracteriza por una carga pequeña debido a que se realiza un trabajo continuo de bajo esfuerzo sostenido.</p>
-            <ul class="zone-stats">
-              <li><span>Tiempo Trabajo:</span> <strong>> 3 min (Pot. Máx a los 10m)</strong></li>
-              <li><span>Recuperación:</span> <strong>1 a 2 minutos</strong></li>
-              <li><span>Frec. Cardíaca:</span> <strong>130 - 150 pulsaciones/min</strong></li>
-            </ul>
-          </div>
-
-          <div class="zone-card">
-            <span class="zone-badge badge-mixto">Aeróbico - Anaeróbico</span>
-            <h3>Zona Mixta</h3>
-            <p>Zona de trabajo e influencia orgánica donde se combinan esfuerzos aeróbicos y anaeróbicos de manera simultánea o alternada.</p>
-            <ul class="zone-stats">
-              <li><span>Deportes:</span> <strong>Deportes de combate</strong></li>
-              <li><span>Aplicación:</span> <strong>Juegos deportivos / colectivos</strong></li>
-            </ul>
-          </div>
-
         </div>
-      </section>
 
-      <!-- 4. TABLA COMPARATIVA -->
-      <section>
-        <h2 class="section-title">4. Cuadro Comparativo (Diferencia entre Métodos)</h2>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Método</th>
-                <th>Característica Principal</th>
-                <th>Orientación</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Continuo invariable</strong></td>
-                <td>Trabajo prolongado, intensidad moderada y ritmo constante.</td>
-                <td>Principalmente aeróbica.</td>
-              </tr>
-              <tr>
-                <td><strong>Fartlek</strong></td>
-                <td>Cambios de ritmo durante un trabajo continuo.</td>
-                <td>Resistencia.</td>
-              </tr>
-              <tr>
-                <td><strong>Intervalos</strong></td>
-                <td>Trabajo + recuperación sin restablecimiento completo.</td>
-                <td>Resistencia y esfuerzos intensos.</td>
-              </tr>
-              <tr>
-                <td><strong>Repeticiones</strong></td>
-                <td>Trabajo + recuperación completa.</td>
-                <td>Velocidad y ejecución de alta calidad.</td>
-              </tr>
-              <tr>
-                <td><strong>Anaeróbico alactácido</strong></td>
-                <td>Esfuerzos muy intensos y cortos.</td>
-                <td>Velocidad y fuerza.</td>
-              </tr>
-              <tr>
-                <td><strong>Anaeróbico lactácido</strong></td>
-                <td>Esfuerzos de aproximadamente 30-90 segundos.</td>
-                <td>Resistencia a la velocidad.</td>
-              </tr>
-              <tr>
-                <td><strong>Aeróbico</strong></td>
-                <td>Trabajo continuo de bajo esfuerzo.</td>
-                <td>Resistencia aeróbica.</td>
-              </tr>
-              <tr>
-                <td><strong>Aeróbico-anaeróbico</strong></td>
-                <td>Combinación de esfuerzos aeróbicos y anaeróbicos.</td>
-                <td>Deportes de combate y juegos deportivos.</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- ANAERÓBICO LACTÁCIDO -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-red);">
+          <span class="badge-tag" style="background: rgba(239, 68, 68, 0.15); color: var(--neon-red); border-color: var(--neon-red);">Anaeróbico Lactácido</span>
+          <h3 style="font-size: 1.1rem; margin: 10px 0; color: #fff;">RESISTENCIA A LA VELOCIDAD</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Provoca grandes concentraciones de ácido láctico en el organismo[cite: 3]. Busca desarrollar altos valores de resistencia a la velocidad anaeróbica[cite: 3].</p>
+          <hr style="border-color: var(--card-border); margin: 12px 0;">
+          <div style="font-size: 0.8rem; color: #94a3b8;">
+            <p><strong>Duración:</strong> 30 a 90 segundos[cite: 3]</p>
+            <p><strong>Recuperación:</strong> Hasta bajar la FC[cite: 3]</p>
+            <p><strong>Frec. Cardíaca:</strong> > 190 pulsaciones/min[cite: 3]</p>
+          </div>
         </div>
-      </section>
+
+        <!-- DIRECCIÓN AERÓBICA -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-green);">
+          <span class="badge-tag">Dirección Aeróbica</span>
+          <h3 style="font-size: 1.1rem; margin: 10px 0; color: #fff;">RESISTENCIA AERÓBICA BASE</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Se caracteriza por una carga pequeña debido a que se realiza un trabajo continuo de bajo esfuerzo sostenido[cite: 3].</p>
+          <hr style="border-color: var(--card-border); margin: 12px 0;">
+          <div style="font-size: 0.8rem; color: #94a3b8;">
+            <p><strong>Tiempo Trabajo:</strong> > 3 min (Pot. Máx a los 10m)[cite: 3]</p>
+            <p><strong>Recuperación:</strong> 1 a 2 minutos[cite: 3]</p>
+            <p><strong>Frec. Cardíaca:</strong> 130 - 150 pulsaciones/min[cite: 3]</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZONA MIXTA -->
+      <div class="info-card" style="border-left: 4px solid var(--neon-blue);">
+        <span class="badge-tag" style="background: rgba(6, 182, 212, 0.15); color: var(--neon-blue); border-color: var(--neon-blue);">Aeróbico - Anaeróbico</span>
+        <h3 style="font-size: 1.1rem; margin: 8px 0; color: #fff;">ZONA MIXTA</h3>
+        <p style="font-size: 0.88rem; color: #cbd5e1;">Zona de trabajo e influencia orgánica donde se combinan esfuerzos aeróbicos y anaeróbicos de manera simultánea o alternada[cite: 3].</p>
+        <div style="display: flex; gap: 30px; margin-top: 10px; font-size: 0.85rem; color: #94a3b8;">
+          <p><strong>Deportes:</strong> Deportes de combate[cite: 3]</p>
+          <p><strong>Aplicación:</strong> Juegos deportivos / colectivos[cite: 3]</p>
+        </div>
+      </div>
+
+      <!-- 4. CUADRO COMPARATIVO -->
+      <div class="section-header">
+        <h2>4. CUADRO COMPARATIVO (DIFERENCIA ENTRE MÉTODOS)</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>MÉTODO</th>
+              <th>CARACTERÍSTICA PRINCIPAL</th>
+              <th>ORIENTACIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Continuo invariable</strong></td>
+              <td>Trabajo prolongado, intensidad moderada y ritmo constante[cite: 1, 3].</td>
+              <td>Principalmente aeróbica[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Fartlek</strong></td>
+              <td>Cambios de ritmo durante un trabajo continuo[cite: 1, 3].</td>
+              <td>Resistencia[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Intervalos</strong></td>
+              <td>Trabajo + recuperación sin restablecimiento completo[cite: 2, 3].</td>
+              <td>Resistencia y esfuerzos intensos[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Repeticiones</strong></td>
+              <td>Trabajo + recuperación completa[cite: 2, 3].</td>
+              <td>Velocidad y ejecución de alta calidad[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Anaeróbico alactácido</strong></td>
+              <td>Esfuerzos muy intensos y cortos[cite: 3].</td>
+              <td>Velocidad y fuerza[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Anaeróbico lactácido</strong></td>
+              <td>Esfuerzos de aproximadamente 30-90 segundos[cite: 3].</td>
+              <td>Resistencia a la velocidad[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Aeróbico</strong></td>
+              <td>Trabajo continuo de bajo esfuerzo[cite: 3].</td>
+              <td>Resistencia aeróbica[cite: 3].</td>
+            </tr>
+            <tr>
+              <td><strong>Aeróbico-anaeróbico</strong></td>
+              <td>Combinación de esfuerzos aeróbicos y anaeróbicos[cite: 3].</td>
+              <td>Deportes de combate y juegos deportivos[cite: 3].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- BOTÓN PASAR A SIGUIENTE VENTANA -->
+      <div style="text-align: center; margin-top: 40px;">
+        <button class="btn-primary" onclick="switchTab('screen-page2')">IR AL PLAN DE PRESCRIPCIÓN COMPLETO →</button>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ==========================================
+       PANTALLA 3: PLAN DE PRESCRIPCIÓN (9 CUADROS + REFERENCIAS)
+  =========================================== -->
+  <section class="page-screen" id="screen-page2">
+    <div class="container">
+
+      <div style="text-align: center; margin-bottom: 40px;">
+        <span class="hero-tag">PRESCRIPCIÓN DEL ENTRENAMIENTO</span>
+        <h1 style="font-size: 2.2rem; color: #fff;">PLAN DE INTERVENCIÓN Y MACROCICLO (16 SEMANAS)</h1>
+      </div>
+
+      <!-- CUADRO 1: EVALUACIÓN INICIAL Y JUSTIFICACIÓN -->
+      <div class="section-header">
+        <h2>1. EVALUACIÓN INICIAL E1 Y JUSTIFICACIÓN</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card">
+        <p><strong>Evaluada:</strong> Mujer, 47 años[cite: 6].</p>
+        <p><strong>Condición reportada en E1:</strong> Hipertensión y sobrepeso[cite: 6].</p>
+        <p><strong>Objetivo general:</strong> Favorecer el control de la presión arterial mediante actividad física y hábitos saludables[cite: 6].</p>
+        <br>
+        <p><strong>Punto de partida de la E1:</strong> La batería ALPHA-Fitness incluyó la valoración de la capacidad aeróbica mediante <em>Course Navette</em>[cite: 6, 7]. El documento de E1 identifica esta prueba como un desplazamiento de 20 m siguiendo señales sonoras progresivas y señala que permite valorar la capacidad aeróbica[cite: 6, 7]. En el archivo entregado no aparece el resultado numérico obtenido, por lo que no se inventa un nivel inicial; la progresión se controlará con FC, presión arterial, percepción del esfuerzo y reevaluaciones[cite: 6, 7].</p>
+        <br>
+        <p><strong>Justificación de la prescripción:</strong> La propuesta busca mejorar de manera progresiva la resistencia cardiovascular sin convertir el entrenamiento en una competencia[cite: 6, 7]. Por el antecedente de hipertensión, se priorizan intensidades moderadas, ejercicios cíclicos de bajo impacto y un control frecuente de la respuesta al esfuerzo[cite: 7]. La carga aumenta primero mediante más tiempo y frecuencia, y después mediante pequeños cambios de intensidad[cite: 7]. La sesión siempre incluye calentamiento y vuelta a la calma[cite: 7].</p>
+      </div>
+
+      <!-- CUADRO 2: PRINCIPIOS FITT-VP -->
+      <div class="section-header">
+        <h2>2. PRINCIPIOS FITT-VP DE LA PRESCRIPCIÓN</h2>
+        <div class="line"></div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>COMPONENTE</th>
+              <th>PRESCRIPCIÓN ESPECÍFICA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>F - Frecuencia</strong></td>
+              <td>Semanas 1-4: 3 días/semana. Semanas 5-8: 4 días. Semanas 9-12: 4 días. Semanas 13-16: 4 días, ajustando según tolerancia[cite: 9].</td>
+            </tr>
+            <tr>
+              <td><strong>I - Intensidad</strong></td>
+              <td>Inicio: RPE 3-4/10 y ritmo conversacional[cite: 9]. Progresión: RPE 4-5/10; algunos intervalos moderados pueden llegar a 5-6/10 si la respuesta cardiovascular es adecuada y existe autorización profesional[cite: 9].</td>
+            </tr>
+            <tr>
+              <td><strong>T - Tiempo</strong></td>
+              <td>Inicio con 20-30 min de trabajo cardiovascular; progresión hasta 35-45 min por sesión, sin contar calentamiento y vuelta a la calma[cite: 9].</td>
+            </tr>
+            <tr>
+              <td><strong>T - Tipo</strong></td>
+              <td>Caminar, bicicleta estática, elíptica de bajo impacto y circuitos aeróbicos sencillos[cite: 9]. Se priorizan modalidades continuas y rítmicas[cite: 9].</td>
+            </tr>
+            <tr>
+              <td><strong>V - Volumen</strong></td>
+              <td>Aumentar gradualmente minutos semanales: aproximadamente 75-90 min al inicio, 100-140 min en desarrollo y 140-180 min cuando exista buena tolerancia[cite: 9].</td>
+            </tr>
+            <tr>
+              <td><strong>P - Progresión</strong></td>
+              <td>Modificar una variable a la vez[cite: 9]. Primero tiempo/frecuencia; después pequeños cambios de intensidad[cite: 9]. Cada 4 semanas se revisa la respuesta y se ajusta la carga[cite: 9].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CUADRO 3: CONTROL DEL ENTRENAMIENTO -->
+      <div class="section-header">
+        <h2>3. CONTROL Y MONITOREO DEL ENTRENAMIENTO</h2>
+        <div class="line"></div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>VARIABLE</th>
+              <th>CÓMO SE CONTROLA</th>
+              <th>CRITERIO PRÁCTICO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Presión arterial</strong></td>
+              <td>Antes de la sesión, cuando sea necesario durante el proceso y después[cite: 8].</td>
+              <td>Registrar PA y observar cambios respecto al valor habitual; ante valores no habituales o síntomas, no aumentar la carga y seguir el protocolo clínico indicado[cite: 8].</td>
+            </tr>
+            <tr>
+              <td><strong>Frecuencia cardíaca</strong></td>
+              <td>Antes, durante y después de sesiones seleccionadas[cite: 8].</td>
+              <td>Usarla junto con RPE; no depender de FC máxima estimada como único criterio[cite: 8].</td>
+            </tr>
+            <tr>
+              <td><strong>RPE 0-10</strong></td>
+              <td>Preguntar durante la parte principal y al terminar[cite: 8].</td>
+              <td>Objetivo habitual 3-5/10; evitar que la sesión se convierta en esfuerzo máximo[cite: 8].</td>
+            </tr>
+            <tr>
+              <td><strong>Talk test</strong></td>
+              <td>Comprobar si puede hablar en frases completas[cite: 8].</td>
+              <td>Si conversar se vuelve difícil, reducir el ritmo[cite: 8].</td>
+            </tr>
+            <tr>
+              <td><strong>Registro</strong></td>
+              <td>Fecha, modalidad, minutos, RPE, FC/PA cuando corresponda y observaciones[cite: 8].</td>
+              <td>Permite decidir si se mantiene, aumenta o reduce la carga[cite: 8].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CUADRO 4: MÉTODOS DE ENTRENAMIENTO APLICADOS -->
+      <div class="section-header">
+        <h2>4. MÉTODOS DE ENTRENAMIENTO APLICADOS</h2>
+        <div class="line"></div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>MÉTODO</th>
+              <th>APLICACIÓN EN ESTE CASO</th>
+              <th>EJEMPLO PRÁCTICO</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Continuo extensivo/moderado</strong></td>
+              <td>Principal método durante la adaptación y gran parte del macrociclo[cite: 10].</td>
+              <td>Caminar 25-40 min a intensidad cómoda-moderada[cite: 10].</td>
+            </tr>
+            <tr>
+              <td><strong>Continuo progresivo</strong></td>
+              <td>Permite subir gradualmente el ritmo sin pausas largas[cite: 10].</td>
+              <td>10 min suave + 15-20 min moderado + 5 min suave[cite: 10].</td>
+            </tr>
+            <tr>
+              <td><strong>Fartlek suave</strong></td>
+              <td>Alternancia natural de ritmos, sin llegar a máximos[cite: 10].</td>
+              <td>2 min cómodo + 1 min algo más rápido, repetido 6-8 veces[cite: 10].</td>
+            </tr>
+            <tr>
+              <td><strong>Interválico moderado</strong></td>
+              <td>Bloques de trabajo y recuperación moderados para controlar la intensidad[cite: 10].</td>
+              <td>4-6 bloques de 3 min moderados + 2 min suaves[cite: 10].</td>
+            </tr>
+            <tr>
+              <td><strong>Circuito aeróbico</strong></td>
+              <td>Alterna desplazamientos y ejercicios de bajo impacto[cite: 10].</td>
+              <td>Marcha, step bajo, movilidad activa y bicicleta, con pausas breves[cite: 10].</td>
+            </tr>
+            <tr>
+              <td><strong>Trabajo anaeróbico/resistencia</strong></td>
+              <td>Complemento mediante fuerza de intensidad moderada para mejorar capacidad funcional; no se plantea como sprint máximo[cite: 10].</td>
+              <td>Sentarse-levantarse, remo con banda, press ligero y ejercicios de core, 1-2 series inicialmente[cite: 10].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-card" style="border-left: 4px solid var(--neon-orange);">
+        <p><strong>Nota de seguridad:</strong> En una persona con hipertensión, el componente anaeróbico se utiliza de manera controlada y submáxima[cite: 10]. No se propone realizar sprints máximos ni esfuerzos que obliguen a contener la respiración[cite: 10].</p>
+      </div>
+
+      <!-- CUADRO 5: PERIODIZACIÓN Y MACROCICLO -->
+      <div class="section-header">
+        <h2>5. PERIODIZACIÓN DEL MACROCICLO (16 SEMANAS)</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card">
+        <p>Estructura de 16 semanas (4 meses), dividida en cuatro mesociclos de cuatro semanas cada uno[cite: 11].</p>
+      </div>
+
+      <div class="macro-bar-container">
+        <div class="macro-phase phase-1">1. Adaptación (Sem 1-4)</div>
+        <div class="macro-phase phase-2">2. Desarrollo (Sem 5-8)</div>
+        <div class="macro-phase phase-3">3. Mejora (Sem 9-12)</div>
+        <div class="macro-phase phase-4">4. Consolidación (Sem 13-16)</div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>MESOCICLO</th>
+              <th>SEMANAS</th>
+              <th>OBJETIVO PRINCIPAL</th>
+              <th>FITT-VP PREDOMINANTE</th>
+              <th>CONTROL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1. Adaptación</strong></td>
+              <td>1-4</td>
+              <td>Crear tolerancia al ejercicio y aprender a controlar el esfuerzo[cite: 11].</td>
+              <td>3 días/sem; 20-30 min; RPE 3-4; continuo moderado[cite: 11].</td>
+              <td>PA, FC, RPE y síntomas[cite: 11]. Semana 4: revisión[cite: 11].</td>
+            </tr>
+            <tr>
+              <td><strong>2. Desarrollo</strong></td>
+              <td>5-8</td>
+              <td>Aumentar el tiempo total y consolidar la resistencia[cite: 11].</td>
+              <td>4 días/sem; 25-35 min; RPE 3-5; continuo + intervalos moderados[cite: 11].</td>
+              <td>Registro de minutos, RPE y respuesta cardiovascular[cite: 11]. Semana 8: control y ajuste[cite: 11].</td>
+            </tr>
+            <tr>
+              <td><strong>3. Mejora</strong></td>
+              <td>9-12</td>
+              <td>Mejorar la capacidad de sostener esfuerzos moderados[cite: 11].</td>
+              <td>4 días/sem; 30-40 min; RPE 4-5; continuo progresivo + intervalos[cite: 11].</td>
+              <td>Comparar carga y respuesta[cite: 11].</td>
+            </tr>
+            <tr>
+              <td><strong>4. Consolidación</strong></td>
+              <td>13-16</td>
+              <td>Mantener las ganancias, consolidar hábitos y reevaluar[cite: 11].</td>
+              <td>4 días/sem; 35-45 min; RPE 4-5, con variaciones moderadas[cite: 11].</td>
+              <td>Semana 16: reevaluación y comparación con E1[cite: 11].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CUADRO 6: MICROCICLOS REPRESENTATIVOS -->
+      <div class="section-header">
+        <h2>6. MICROCICLOS REPRESENTATIVOS</h2>
+        <div class="line"></div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>DÍA</th>
+              <th>M1 - Sem. 2 (Adaptación)</th>
+              <th>M2 - Sem. 6 (Desarrollo)</th>
+              <th>M3 - Sem. 10 (Mejora)</th>
+              <th>M4 - Sem. 14 (Consolidación)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Lunes</strong></td>
+              <td>Cardio continuo 25 min, RPE 3-4[cite: 12]</td>
+              <td>Cardio continuo 30 min, RPE 4[cite: 12]</td>
+              <td>Continuo progresivo 35 min, RPE 4-5[cite: 12]</td>
+              <td>Continuo 40 min, RPE 4-5[cite: 12]</td>
+            </tr>
+            <tr>
+              <td><strong>Martes</strong></td>
+              <td>Movilidad/descanso[cite: 12]</td>
+              <td>Fuerza moderada + movilidad[cite: 12]</td>
+              <td>Fuerza moderada + movilidad[cite: 12]</td>
+              <td>Fuerza moderada + movilidad[cite: 12]</td>
+            </tr>
+            <tr>
+              <td><strong>Miércoles</strong></td>
+              <td>Caminata/bici 20-25 min[cite: 12]</td>
+              <td>Intervalos moderados 30 min[cite: 12]</td>
+              <td>Intervalos 35 min[cite: 12]</td>
+              <td>Intervalos moderados 35-40 min[cite: 12]</td>
+            </tr>
+            <tr>
+              <td><strong>Jueves</strong></td>
+              <td>Descanso activo[cite: 12]</td>
+              <td>Descanso activo[cite: 12]</td>
+              <td>Descanso activo[cite: 12]</td>
+              <td>Descanso activo[cite: 12]</td>
+            </tr>
+            <tr>
+              <td><strong>Viernes</strong></td>
+              <td>Cardio continuo 25 min[cite: 12]</td>
+              <td>Cardio continuo 30-35 min[cite: 12]</td>
+              <td>Fartlek suave 35 min[cite: 12]</td>
+              <td>Fartlek suave 40 min[cite: 12]</td>
+            </tr>
+            <tr>
+              <td><strong>Sábado</strong></td>
+              <td>Movilidad/caminata suave 15-20 min[cite: 12]</td>
+              <td>Caminata suave 20 min[cite: 12]</td>
+              <td>Caminata suave 20-25 min[cite: 12]</td>
+              <td>Caminata suave 20-25 min[cite: 12]</td>
+            </tr>
+            <tr>
+              <td><strong>Domingo</strong></td>
+              <td>Descanso[cite: 12]</td>
+              <td>Descanso[cite: 12]</td>
+              <td>Descanso[cite: 12]</td>
+              <td>Descanso[cite: 12]</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CUADRO 7: PROGRESIÓN SEMANAL DE VOLUMEN -->
+      <div class="section-header">
+        <h2>7. PROGRESIÓN SEMANAL DE VOLUMEN</h2>
+        <div class="line"></div>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>SEMANA</th>
+              <th>SESIONES CARDIO/SEM</th>
+              <th>TRABAJO PRINCIPAL APROX.</th>
+              <th>INTENSIDAD ORIENTATIVA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Semana 1</strong></td><td>3</td><td>20-25 min/sesión</td><td>RPE 3[cite: 16]</td></tr>
+            <tr><td><strong>Semana 2</strong></td><td>3</td><td>25 min/sesión</td><td>RPE 3-4[cite: 16]</td></tr>
+            <tr><td><strong>Semana 3</strong></td><td>3</td><td>25-30 min/sesión</td><td>RPE 3-4[cite: 16]</td></tr>
+            <tr><td><strong>Semana 4</strong></td><td>3</td><td>25-30 min/sesión</td><td>RPE 3-4; revisión[cite: 16]</td></tr>
+            <tr><td><strong>Semana 5</strong></td><td>4</td><td>25-30 min/sesión</td><td>RPE 3-4[cite: 16]</td></tr>
+            <tr><td><strong>Semana 6</strong></td><td>4</td><td>30 min/sesión</td><td>RPE 4[cite: 16]</td></tr>
+            <tr><td><strong>Semana 7</strong></td><td>4</td><td>30-35 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 8</strong></td><td>4</td><td>30-35 min/sesión</td><td>RPE 4-5; revisión[cite: 16]</td></tr>
+            <tr><td><strong>Semana 9</strong></td><td>4</td><td>30-35 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 10</strong></td><td>4</td><td>35 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 11</strong></td><td>4</td><td>35-40 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 12</strong></td><td>4</td><td>35-40 min/sesión</td><td>RPE 4-5; revisión[cite: 16]</td></tr>
+            <tr><td><strong>Semana 13</strong></td><td>4</td><td>35-40 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 14</strong></td><td>4</td><td>40 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 15</strong></td><td>4</td><td>40-45 min/sesión</td><td>RPE 4-5[cite: 16]</td></tr>
+            <tr><td><strong>Semana 16</strong></td><td>3-4</td><td>30-40 min + reevaluación</td><td>RPE 3-5[cite: 16]</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CUADRO 8: SESIÓN MODELO -->
+      <div class="section-header">
+        <h2>8. SESIÓN CARDIOVASCULAR MODELO</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card">
+        <p><strong>Objetivo:</strong> Estimular la resistencia cardiovascular mediante trabajo continuo e intervalos moderados, manteniendo una respuesta controlada[cite: 13].</p>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>PARTE</th>
+              <th>TIEMPO</th>
+              <th>CONTENIDO</th>
+              <th>INTENSIDAD / CONTROL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Calentamiento</strong></td>
+              <td>8-10 min</td>
+              <td>Marcha suave + movilidad de tobillos, rodillas, cadera, hombros y respiración controlada[cite: 13].</td>
+              <td>RPE 2-3/10[cite: 13].</td>
+            </tr>
+            <tr>
+              <td><strong>Bloque 1</strong></td>
+              <td>10 min</td>
+              <td>Caminata continua a ritmo cómodo[cite: 13].</td>
+              <td>RPE 3-4; debe poder conversar[cite: 13].</td>
+            </tr>
+            <tr>
+              <td><strong>Bloque 2</strong></td>
+              <td>15 min</td>
+              <td>5 repeticiones: 2 min de caminata moderada + 1 min de caminata suave[cite: 13].</td>
+              <td>RPE 4-5 en los minutos moderados; 3 en recuperación[cite: 13].</td>
+            </tr>
+            <tr>
+              <td><strong>Bloque 3</strong></td>
+              <td>5-8 min</td>
+              <td>Caminata continua suave[cite: 13].</td>
+              <td>RPE 3-4[cite: 13].</td>
+            </tr>
+            <tr>
+              <td><strong>Vuelta a la calma</strong></td>
+              <td>5-8 min</td>
+              <td>Marcha cada vez más lenta + respiración y movilidad suave[cite: 13].</td>
+              <td>RPE 1-2[cite: 13].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="info-card">
+        <p><strong>Duración total aproximada:</strong> 43-49 minutos[cite: 13]. En las primeras semanas se puede reducir el bloque principal y aumentar progresivamente según tolerancia[cite: 13].</p>
+      </div>
+
+      <!-- CUADRO 9: EVALUACIÓN, AJUSTES Y SEGURIDAD -->
+      <div class="section-header">
+        <h2>9. EVALUACIÓN Y CONSIDERACIONES DE SEGURIDAD</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card">
+        <p>La prescripción no debe quedar fija durante los cuatro meses[cite: 15]. Al finalizar cada mesociclo se revisan los registros[cite: 15]. Si la evaluada tolera la carga, mantiene una percepción de esfuerzo adecuada y no presenta respuestas adversas, se puede aumentar ligeramente el tiempo o la frecuencia[cite: 15]. Si aparece intolerancia, síntomas o una respuesta de presión arterial fuera de lo esperado, se mantiene o reduce la carga y se sigue la indicación del profesional de salud[cite: 15].</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>MOMENTO</th>
+              <th>EVALUACIÓN / CONTROL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Semana 0 / E1</strong></td>
+              <td>Course Navette ALPHA-Fitness + datos antropométricos y demás pruebas disponibles en E1[cite: 15]. Registrar resultado real[cite: 15].</td>
+            </tr>
+            <tr>
+              <td><strong>Semana 4</strong></td>
+              <td>PA, FC, RPE, minutos tolerados y adherencia[cite: 15].</td>
+            </tr>
+            <tr>
+              <td><strong>Semana 8</strong></td>
+              <td>Revisión de carga y respuesta cardiovascular; ajustar volumen[cite: 15].</td>
+            </tr>
+            <tr>
+              <td><strong>Semana 12</strong></td>
+              <td>Revisión de tolerancia y capacidad de mantener trabajo moderado[cite: 15].</td>
+            </tr>
+            <tr>
+              <td><strong>Semana 16</strong></td>
+              <td>Repetir, cuando sea apropiado y seguro, la prueba cardiovascular de E1 y comparar con el valor inicial[cite: 15].</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="info-card" style="border-left: 4px solid var(--neon-red); background: rgba(239, 68, 68, 0.08);">
+        <h3 style="color: var(--neon-red); margin-bottom: 8px;">CONSIDERACIONES DE SEGURIDAD</h3>
+        <p style="font-size: 0.9rem;">Por la hipertensión reportada, el programa debe realizarse con autorización y seguimiento profesional cuando corresponda[cite: 17]. Se evita el esfuerzo máximo, se enfatiza una respiración continua y no se recomienda contener la respiración durante ejercicios de fuerza[cite: 17]. La sesión se debe detener ante síntomas de alarma y aplicar el protocolo de atención establecido[cite: 17].</p>
+      </div>
+
+      <!-- REFERENCIAS BIBLIOGRÁFICAS REINTEGRADAS Y COMPLETAS AL FINAL -->
+      <div class="section-header" style="margin-top: 50px;">
+        <h2>REFERENCIAS BIBLIOGRÁFICAS</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card">
+        <ul style="list-style: none; color: var(--text-muted); font-size: 0.88rem; line-height: 1.8;">
+          <li style="margin-bottom: 12px;">• Quispe Quispe, Y. C., Puño Canqui, L. G., Huayanca Medina, P. C., Avilés Puma, B., Portillo Cora, F. N., & Morales Cauna, L. F. (2025). <em>Metodología del entrenamiento deportivo</em>. Centro de Investigación y Desarrollo (CID).</li>
+          <li style="margin-bottom: 12px;">• American College of Sports Medicine (ACSM). (2021). <em>ACSM's Guidelines for Exercise Testing and Prescription</em> (11th ed.). Lippincott Williams & Wilkins.</li>
+          <li style="margin-bottom: 12px;">• Badillo, J. J. G., & Ayestarán, E. G. (2002). <em>Bases de la programación del entrenamiento de fuerza</em>. INDE.</li>
+          <li style="margin-bottom: 12px;">• Billat, L. V. (2002). <em>Fisiología y metodología del entrenamiento: De la teoría a la práctica</em>. Editorial Paidotribo.</li>
+          <li>• Verkhoshansky, Y., & Siff, M. C. (2004). <em>Superentrenamiento</em>. Editorial Paidotribo.</li>
+        </ul>
+      </div>
 
     </div>
 
-    <!-- PIE DE PÁGINA Y CITA -->
     <footer>
-      <p><strong>Referencia bibliográfica:</strong></p>
-      <blockquote>
-        Quispe Quispe, Y. C., Puño Canqui, L. G., Huayanca Medina, P. C., Avilés Puma, B., Portillo Cora, F. N., & Morales Cauna, L. F. (2025). <em>Metodología del entrenamiento deportivo</em>. Centro de Investigación y Desarrollo (CID).
-      </blockquote>
+      <p>Página Web Interactiva de Metodología y Prescripción del Entrenamiento Deportivo</p>
     </footer>
-  </main>
+  </section>
 
-  <!-- CONTROL DE NAVEGACIÓN -->
+  <!-- JAVASCRIPT DE NAVEGACIÓN INTERACTIVA Y FILTROS -->
   <script>
-    function startApp() {
-      document.getElementById('hero-screen').style.display = 'none';
-      document.getElementById('content-screen').classList.add('active');
-      window.scrollTo(0, 0);
-    }
+    function switchTab(screenId) {
+      // Ocultar todas las pantallas
+      const screens = document.querySelectorAll('.page-screen');
+      screens.forEach(screen => screen.classList.remove('active'));
 
-    function goBack() {
-      document.getElementById('content-screen').classList.remove('active');
-      document.getElementById('hero-screen').style.display = 'flex';
-      window.scrollTo(0, 0);
+      // Mostrar la pantalla seleccionada
+      const targetScreen = document.getElementById(screenId);
+      if(targetScreen) {
+        targetScreen.classList.add('active');
+      }
+
+      // Actualizar botones de la barra de navegación
+      const navBtns = document.querySelectorAll('.nav-btn');
+      navBtns.forEach(btn => btn.classList.remove('active'));
+
+      if(screenId === 'screen-hero') navBtns[0].classList.add('active');
+      if(screenId === 'screen-page1') navBtns[1].classList.add('active');
+      if(screenId === 'screen-page2') navBtns[2].classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     function filterMethods(type) {
-      const continuos = document.querySelectorAll('.method-card.continuo');
-      const discontinuos = document.querySelectorAll('.method-card.discontinuo');
-      const btnContinuo = document.getElementById('btn-continuo');
-      const btnDiscontinuo = document.getElementById('btn-discontinuo');
+      const continuos = document.querySelectorAll('.card-continuo');
+      const discontinuos = document.querySelectorAll('.card-discontinuo');
+      
+      document.getElementById('btn-continuos').classList.remove('active');
+      document.getElementById('btn-discontinuos').classList.remove('active');
 
       if (type === 'continuo') {
-        btnContinuo.classList.add('active');
-        btnDiscontinuo.classList.remove('active');
+        document.getElementById('btn-continuos').classList.add('active');
         continuos.forEach(card => card.style.display = 'flex');
         discontinuos.forEach(card => card.style.display = 'none');
       } else if (type === 'discontinuo') {
-        btnDiscontinuo.classList.add('active');
-        btnContinuo.classList.remove('active');
+        document.getElementById('btn-discontinuos').classList.add('active');
         continuos.forEach(card => card.style.display = 'none');
         discontinuos.forEach(card => card.style.display = 'flex');
       }
