@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Métodos de Entrenamiento Aeróbico y Anaeróbico</title>
+  <title>Métodos de Entrenamiento Aeróbico, Anaeróbico y Resistencia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
@@ -18,6 +18,7 @@
       --neon-blue: #06b6d4;
       --neon-orange: #f97316;
       --neon-red: #ef4444;
+      --neon-purple: #a855f7;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
     }
@@ -118,6 +119,7 @@
 
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 25px; }
     .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
 
     .method-card {
       background: var(--card-bg); border: 1px solid var(--card-border);
@@ -132,6 +134,26 @@
       font-size: 0.7rem; text-transform: uppercase; font-weight: 800; padding: 4px 10px;
       border-radius: 4px; background: rgba(34, 197, 94, 0.15); color: var(--neon-green);
       border: 1px solid var(--neon-green); display: inline-block; margin-bottom: 12px;
+    }
+
+    /* BADGES DE FUERZA */
+    .fuerza-badge {
+      display: inline-block; padding: 5px 12px; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 800; text-transform: uppercase;
+    }
+    .badge-maxima { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+    .badge-explosiva { background: rgba(249, 115, 22, 0.2); color: #f97316; border: 1px solid #f97316; }
+    .badge-reactiva { background: rgba(34, 197, 94, 0.2); color: #22c55e; border: 1px solid #22c55e; }
+    .badge-resistencia { background: rgba(6, 182, 212, 0.2); color: #06b6d4; border: 1px solid #06b6d4; }
+
+    /* CONTENEDOR DE IMAGEN INFOGRAFÍA */
+    .infographic-box {
+      width: 100%; background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; padding: 15px; margin-bottom: 30px; text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+    .infographic-box img {
+      max-width: 100%; height: auto; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
     }
 
     /* TABLAS ESTILIZADAS */
@@ -187,7 +209,7 @@
   <section class="page-screen active" id="screen-hero">
     <div class="hero-tag">Metodología del Entrenamiento Deportivo</div>
     <h1 class="hero-title">MÉTODOS DE ENTRENAMIENTO AERÓBICO Y ANAERÓBICO</h1>
-    <p class="hero-subtitle">Guía integral y científica sobre métodos continuos, discontinuos y zonas de influencia orgánica.</p>
+    <p class="hero-subtitle">Guía integral y científica sobre métodos continuos, discontinuos, zonas de influencia orgánica y modalidades del entrenamiento con resistencia.</p>
     <button class="btn-primary" onclick="switchTab('screen-page1')">EXPLORAR CONTENIDO</button>
   </section>
 
@@ -210,6 +232,168 @@
           <li style="margin-bottom: 8px;">• <strong>Métodos Discontinuos:</strong> Aparecen los métodos de <em>intervalos</em> y <em>repeticiones</em>.</li>
           <li>• <strong>Relación Metabólica:</strong> El documento relaciona estas formas de entrenamiento con direcciones aeróbicas, anaeróbicas y mixtas.</li>
         </ul>
+      </div>
+
+      <!-- MODALIDADES DEL ENTRENAMIENTO CON RESISTENCIA -->
+      <div class="section-header">
+        <h2>MODALIDADES DEL ENTRENAMIENTO CON RESISTENCIA</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card" style="margin-bottom: 20px;">
+        <p>Estas son las principales modalidades que puedes identificar y demostrar en una sesión de entrenamiento:</p>
+      </div>
+
+      <div class="grid-4" style="margin-bottom: 40px;">
+        <!-- FUERZA MÁXIMA -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-purple); margin-bottom: 0;">
+          <span class="badge-tag" style="background: rgba(168, 85, 247, 0.15); color: var(--neon-purple); border-color: var(--neon-purple);">Fuerza Máxima</span>
+          <h3 style="font-size: 1rem; margin: 8px 0; color: #fff;">MÁXIMA RESISTENCIA</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Permite desarrollar la mayor fuerza posible frente a una resistencia.</p>
+        </div>
+
+        <!-- FUERZA EXPLOSIVA -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-orange); margin-bottom: 0;">
+          <span class="badge-tag" style="background: rgba(249, 115, 22, 0.15); color: var(--neon-orange); border-color: var(--neon-orange);">Fuerza Explosiva</span>
+          <h3 style="font-size: 1rem; margin: 8px 0; color: #fff;">VELOCIDAD Y POTENCIA</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Busca aplicar fuerza en el menor tiempo posible, mediante movimientos rápidos.</p>
+        </div>
+
+        <!-- FUERZA REACTIVA -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-blue); margin-bottom: 0;">
+          <span class="badge-tag" style="background: rgba(6, 182, 212, 0.15); color: var(--neon-blue); border-color: var(--neon-blue);">Fuerza Reactiva</span>
+          <h3 style="font-size: 1rem; margin: 8px 0; color: #fff;">CICLO ESTIRAMIENTO-ACORTAMIENTO</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Utiliza contracciones muy rápidas, como las que se realizan en saltos con poco tiempo de contacto con el suelo.</p>
+        </div>
+
+        <!-- RESISTENCIA A LA FUERZA -->
+        <div class="info-card" style="border-top: 3px solid var(--neon-green); margin-bottom: 0;">
+          <span class="badge-tag">Resistencia a la Fuerza</span>
+          <h3 style="font-size: 1rem; margin: 8px 0; color: #fff;">CAPACIDAD PROLONGADA</h3>
+          <p style="font-size: 0.85rem; color: #cbd5e1;">Permite mantener la producción de fuerza y la técnica durante un periodo prolongado o durante varias repeticiones.</p>
+        </div>
+      </div>
+
+      <!-- TÉCNICAS Y MÉTODOS QUE DEBES EVIDENCIAR -->
+      <div class="section-header">
+        <h2>TÉCNICAS Y MÉTODOS DE EJECUCIÓN</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom: 40px;">
+        <div class="info-card">
+          <span class="badge-tag">✓ 1. Contracción Concéntrica</span>
+          <h3 style="font-size: 1.1rem; color: #fff; margin: 8px 0;">Acortamiento Muscular</h3>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 10px;">El músculo se acorta mientras vence una resistencia.</p>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-size: 0.82rem; color: var(--neon-green);">
+            <strong>Ejemplo:</strong> Realizar un curl de bíceps con mancuernas al levantar el peso.
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="badge-tag" style="background: rgba(6, 182, 212, 0.15); color: var(--neon-blue); border-color: var(--neon-blue);">✓ 2. Contracción Isométrica</span>
+          <h3 style="font-size: 1.1rem; color: #fff; margin: 8px 0;">Tensión sin Movimiento</h3>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 10px;">Se genera tensión muscular sin que haya un movimiento apreciable de la articulación.</p>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-size: 0.82rem; color: var(--neon-blue);">
+            <strong>Ejemplo:</strong> Mantener la posición de plancha durante 30 segundos.
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="badge-tag" style="background: rgba(249, 115, 22, 0.15); color: var(--neon-orange); border-color: var(--neon-orange);">✓ 3. Contracción Excéntrica</span>
+          <h3 style="font-size: 1.1rem; color: #fff; margin: 8px 0;">Alargamiento Controlado</h3>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 10px;">El músculo genera tensión mientras se alarga para controlar el movimiento.</p>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-size: 0.82rem; color: var(--neon-orange);">
+            <strong>Ejemplo:</strong> Bajar lentamente una mancuerna después de levantarla.
+          </div>
+        </div>
+
+        <div class="info-card">
+          <span class="badge-tag" style="background: rgba(168, 85, 247, 0.15); color: var(--neon-purple); border-color: var(--neon-purple);">✓ 4. Método Pliométrico</span>
+          <h3 style="font-size: 1.1rem; color: #fff; margin: 8px 0;">Ciclo Estiramiento-Acortamiento</h3>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 10px;">Busca mejorar la fuerza explosiva mediante acciones rápidas que aprovechan el ciclo de estiramiento y acortamiento muscular.</p>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-size: 0.82rem; color: var(--neon-purple);">
+            <strong>Ejemplo:</strong> Realizar saltos verticales o multisaltos.
+          </div>
+        </div>
+
+        <div class="info-card" style="grid-column: 1 / -1;">
+          <span class="badge-tag" style="background: rgba(239, 68, 68, 0.15); color: var(--neon-red); border-color: var(--neon-red);">✓ 5. Método de Contrastes</span>
+          <h3 style="font-size: 1.1rem; color: #fff; margin: 8px 0;">Cargas Altas + Cargas Ligeras</h3>
+          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 10px;">Combina ejercicios con cargas elevadas y ejercicios con cargas ligeras o sin carga, buscando mejorar la fuerza y la potencia.</p>
+          <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px; font-size: 0.82rem; color: var(--neon-red);">
+            <strong>Ejemplo:</strong> Realizar sentadillas con una carga adecuada y después saltos sin peso.
+          </div>
+        </div>
+      </div>
+
+      <!-- IMAGEN DE LA INFOGRAFÍA COMPLETA -->
+      <div class="section-header">
+        <h2>INFOGRAFÍA GUÍA DE LA SESIÓN DE RESISTENCIA</h2>
+        <div class="line"></div>
+      </div>
+
+      <div class="infographic-box">
+        <img src="img/sesion_resistencia.jpeg" alt="Ejemplo de Sesión de Entrenamiento con Resistencia">
+      </div>
+
+      <!-- TABLA DETALLADA DE LA SESIÓN DE ENTRENAMIENTO CON RESISTENCIA -->
+      <div class="section-header">
+        <h2>EJEMPLO DE SESIÓN DE ENTRENAMIENTO CON RESISTENCIA</h2>
+        <div class="line"></div>
+      </div>
+      <div class="info-card" style="margin-bottom: 20px;">
+        <p><strong>Objetivo de la sesión:</strong> Desarrollar las diferentes modalidades de la fuerza (máxima, explosiva, reactiva y resistencia a la fuerza), aplicando las principales técnicas de ejecución del entrenamiento con resistencia.</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>N.°</th>
+              <th>EJERCICIO</th>
+              <th>MODALIDAD DE LA FUERZA</th>
+              <th>TÉCNICA / MÉTODO</th>
+              <th>DOSIFICACIÓN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td><strong>Sentadilla con peso corporal o con carga</strong><br><small style="color: var(--text-muted);">(puede ser en máquina o con mancuernas)</small></td>
+              <td><span class="fuerza-badge badge-maxima">Fuerza máxima</span></td>
+              <td>Contracción concéntrica y excéntrica</td>
+              <td>3 series de 8–10 repeticiones<br><small style="color: var(--neon-green);">(descanso: 1–2 min)</small></td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td><strong>Flexiones de brazos</strong></td>
+              <td><span class="fuerza-badge badge-explosiva">Fuerza explosiva</span></td>
+              <td>Contracción concéntrica y excéntrica</td>
+              <td>3 series de 10–12 repeticiones<br><small style="color: var(--neon-green);">(descanso: 1 min)</small></td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td><strong>Plancha abdominal</strong></td>
+              <td><span class="fuerza-badge badge-reactiva">Fuerza reactiva</span></td>
+              <td>Contracción isométrica</td>
+              <td>3 series de 30–45 segundos<br><small style="color: var(--neon-green);">(descanso: 45 seg)</small></td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td><strong>Saltos verticales o multisaltos</strong></td>
+              <td><span class="fuerza-badge badge-reactiva">Fuerza reactiva / Explosiva</span></td>
+              <td>Método pliométrico</td>
+              <td>3 series de 5–8 saltos<br><small style="color: var(--neon-green);">(descanso: 1–2 min)</small></td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td><strong>Sentadilla + salto (contraste)</strong></td>
+              <td><span class="fuerza-badge badge-resistencia">Resistencia a la fuerza / Explosiva</span></td>
+              <td>Método de contrastes</td>
+              <td>2–3 combinaciones (sentadilla 8 rep. + salto 8 rep.)<br><small style="color: var(--neon-green);">(descanso: 2 min)</small></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- 2. MÉTODOS DE ENTRENAMIENTO CON BOTONES Y CARDS -->
@@ -856,6 +1040,7 @@
       </div>
       <div class="info-card">
         <ul style="list-style: none; color: var(--text-muted); font-size: 0.88rem; line-height: 1.8;">
+          <li style="margin-bottom: 12px;">• Rosa Guillamón, A. (2013). Metodología de entrenamiento de la fuerza. <em>EFDeportes.com, Revista Digital</em>, 18(186). https://efdeportes.com/efd186/metodologia-de-entrenamiento-de-la-fuerza.htm</li>
           <li style="margin-bottom: 12px;">• Quispe Quispe, Y. C., Puño Canqui, L. G., Huayanca Medina, P. C., Avilés Puma, B., Portillo Cora, F. N., & Morales Cauna, L. F. (2025). <em>Metodología del entrenamiento deportivo</em>. Centro de Investigación y Desarrollo (CID).</li>
           <li style="margin-bottom: 12px;">• American College of Sports Medicine (ACSM). (2021). <em>ACSM's Guidelines for Exercise Testing and Prescription</em> (11th ed.). Lippincott Williams & Wilkins.</li>
           <li style="margin-bottom: 12px;">• Badillo, J. J. G., & Ayestarán, E. G. (2002). <em>Bases de la programación del entrenamiento de fuerza</em>. INDE.</li>
